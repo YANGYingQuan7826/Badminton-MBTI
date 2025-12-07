@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>羽毛球MBTI人格测试</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 欢迎页面 -->
+        <div id="welcome-screen" class="screen active">
+            <div class="welcome-content">
+                <h1>🏸 羽毛球MBTI人格测试</h1>
+                <p class="subtitle">发现你在球场上的真实人格</p>
+                <div class="intro-text">
+                    <p>通过9道精心设计的问题，了解你的：</p>
+                    <ul>
+                        <li>核心动力：你为什么来打球？</li>
+                        <li>技术风格：你在场上怎么打？</li>
+                        <li>沟通模式：你在场上怎么交流？</li>
+                    </ul>
+                </div>
+                <button class="btn btn-primary" onclick="startQuiz()">开始测试</button>
+            </div>
+        </div>
+
+        <!-- 问卷页面 -->
+        <div id="quiz-screen" class="screen">
+            <div class="quiz-header">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="progress-text">
+                    <span id="current-question">1</span> / <span id="total-questions">9</span>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <div class="dimension-label" id="dimension-label"></div>
+                <h2 class="question-text" id="question-text"></h2>
+                
+                <div class="options-container" id="options-container">
+                    <!-- 选项将通过JavaScript动态生成 -->
+                </div>
+            </div>
+
+            <div class="quiz-navigation">
+                <button class="btn btn-secondary" id="prev-btn" onclick="previousQuestion()" style="display:none;">上一题</button>
+                <div class="spacer"></div>
+            </div>
+        </div>
+
+        <!-- 结果页面 -->
+        <div id="result-screen" class="screen">
+            <div class="result-content">
+                <h1>你的羽毛球人格类型是</h1>
+                <div class="personality-type" id="personality-type"></div>
+                <div class="personality-name" id="personality-name"></div>
+                <div class="personality-description" id="personality-description"></div>
+                
+                <div class="dimension-results">
+                    <div class="dimension-result">
+                        <h3>核心动力</h3>
+                        <p id="motivation-result"></p>
+                    </div>
+                    <div class="dimension-result">
+                        <h3>技术风格</h3>
+                        <p id="style-result"></p>
+                    </div>
+                    <div class="dimension-result">
+                        <h3>沟通模式</h3>
+                        <p id="communication-result"></p>
+                    </div>
+                </div>
+
+                <div class="result-actions">
+                    <button class="btn btn-primary" onclick="restartQuiz()">重新测试</button>
+                    <button class="btn btn-secondary" onclick="shareResult()">分享结果</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
