@@ -26,8 +26,29 @@
 
 ### 本地运行
 
-1. 下载或克隆项目文件
-2. 直接用浏览器打开 `index.html` 文件即可
+#### 方法1：使用本地服务器（推荐，保存功能正常）
+
+**macOS/Linux:**
+```bash
+cd "/Users/yingquan/Desktop/羽毛球mbti问卷"
+python3 -m http.server 8000
+```
+然后在浏览器中访问：`http://localhost:8000`
+
+**Windows:**
+```cmd
+cd "C:\Users\你的用户名\Desktop\羽毛球mbti问卷"
+python -m http.server 8000
+```
+然后在浏览器中访问：`http://localhost:8000`
+
+**或者直接运行脚本：**
+- macOS/Linux: 双击 `启动本地服务器.sh`
+- Windows: 双击 `启动本地服务器.bat`
+
+#### 方法2：直接打开文件（保存功能可能受限）
+
+直接用浏览器打开 `index.html` 文件即可，但保存图片功能可能无法使用（浏览器安全限制）。
 
 ### 部署到网站
 

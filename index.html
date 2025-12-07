@@ -14,6 +14,9 @@
                 <h1>🏸 羽毛球MBTI人格测试</h1>
                 <p class="subtitle">发现你在球场上的真实人格</p>
                 <div class="intro-text">
+                    <p>— 来自羽毛球场角落的第三方独立研究鸟类</p>
+                    <p>咕咕观察人类很久了。他们每到一个叫"羽毛球馆"的巨大室内空间，就会展现出奇妙的行为模式：奔跑、跳跃、喊叫、互相道歉、互相夸奖、偶尔争吵，但大多时候都很开心。</p>
+                    <p>咕咕决定为人类做一个科学但不严肃的分类系统。经过 124 场偷看、36 次被球砸中头、以及 8 次被误认为羽毛球捡走之后——咕咕终于整理出了：<strong>8大羽毛球MBTI</strong></p>
                     <p>通过9道精心设计的问题，了解你的：</p>
                     <ul>
                         <li>核心动力：你为什么来打球？</li>
@@ -55,33 +58,187 @@
         <div id="result-screen" class="screen">
             <div class="result-content">
                 <h1>你的羽毛球人格类型是</h1>
+                <div class="personality-image-container">
+                    <img id="personality-image" src="" alt="人格形象" class="personality-image">
+                </div>
                 <div class="personality-type" id="personality-type"></div>
                 <div class="personality-name" id="personality-name"></div>
                 <div class="personality-description" id="personality-description"></div>
                 
-                <div class="dimension-results">
-                    <div class="dimension-result">
-                        <h3>核心动力</h3>
-                        <p id="motivation-result"></p>
+                <div class="dimension-axes">
+                    <!-- 核心动力轴 -->
+                    <div class="dimension-axis">
+                        <div class="axis-label">核心动力</div>
+                        <div class="axis-container">
+                            <div class="axis-label-left">
+                                <span class="axis-label-text">认真竞技</span>
+                                <span class="axis-label-code">C</span>
+                            </div>
+                            <div class="axis-bar-container">
+                                <div class="axis-bar">
+                                    <div class="axis-bar-fill" id="motivation-bar" style="width: 50%;"></div>
+                                </div>
+                            </div>
+                            <div class="axis-label-right">
+                                <span class="axis-label-code">P</span>
+                                <span class="axis-label-text">乐趣优先</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="dimension-result">
-                        <h3>技术风格</h3>
-                        <p id="style-result"></p>
+                    
+                    <!-- 技术风格轴 -->
+                    <div class="dimension-axis">
+                        <div class="axis-label">技术风格</div>
+                        <div class="axis-container">
+                            <div class="axis-label-left">
+                                <span class="axis-label-text">主动创造</span>
+                                <span class="axis-label-code">A</span>
+                            </div>
+                            <div class="axis-bar-container">
+                                <div class="axis-bar">
+                                    <div class="axis-bar-fill" id="style-bar" style="width: 50%;"></div>
+                                </div>
+                            </div>
+                            <div class="axis-label-right">
+                                <span class="axis-label-code">D</span>
+                                <span class="axis-label-text">稳健防守</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="dimension-result">
-                        <h3>沟通模式</h3>
-                        <p id="communication-result"></p>
+                    
+                    <!-- 沟通模式轴 -->
+                    <div class="dimension-axis">
+                        <div class="axis-label">沟通模式</div>
+                        <div class="axis-container">
+                            <div class="axis-label-left">
+                                <span class="axis-label-text">积极沟通</span>
+                                <span class="axis-label-code">E</span>
+                            </div>
+                            <div class="axis-bar-container">
+                                <div class="axis-bar">
+                                    <div class="axis-bar-fill" id="communication-bar" style="width: 50%;"></div>
+                                </div>
+                            </div>
+                            <div class="axis-label-right">
+                                <span class="axis-label-code">Q</span>
+                                <span class="axis-label-text">沉浸打球</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="result-actions">
                     <button class="btn btn-primary" onclick="restartQuiz()">重新测试</button>
-                    <button class="btn btn-secondary" onclick="shareResult()">分享结果</button>
+                    <button class="btn btn-secondary" onclick="saveResult()">保存测试结果</button>
+                </div>
+                
+                <!-- 二维码区域 -->
+                <div class="qr-code-section" id="qr-code-section">
+                    <div class="qr-code-container">
+                        <img src="二维码.png" alt="小红书二维码" class="qr-code-image" id="qr-code-image">
+                        <p class="qr-code-text">更多消息请关注我们的小红书账号～</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- html2canvas库 - 使用多个备用CDN -->
+    <script>
+        // 尝试加载html2canvas库，如果失败则尝试备用源
+        function loadHtml2Canvas() {
+            return new Promise((resolve, reject) => {
+                // CDN源列表（按优先级排序）
+                const cdnSources = [
+                    'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js',
+                    'https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js',
+                    'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js',
+                    'https://fastly.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js',
+                    'https://esm.sh/html2canvas@1.4.1'
+                ];
+                
+                let currentIndex = 0;
+                let loadedScripts = [];
+                
+                function tryLoad(index) {
+                    if (index >= cdnSources.length) {
+                        console.error('所有CDN源都加载失败');
+                        reject(new Error('所有CDN源都加载失败，请检查网络连接或使用本地文件'));
+                        return;
+                    }
+                    
+                    // 移除之前失败的script标签
+                    loadedScripts.forEach(script => {
+                        if (script.parentNode) {
+                            script.parentNode.removeChild(script);
+                        }
+                    });
+                    loadedScripts = [];
+                    
+                    const script = document.createElement('script');
+                    script.src = cdnSources[index];
+                    script.async = true;
+                    script.crossOrigin = 'anonymous';
+                    
+                    // 添加超时处理
+                    const timeout = setTimeout(() => {
+                        console.warn('CDN源加载超时:', cdnSources[index]);
+                        if (script.parentNode) {
+                            script.parentNode.removeChild(script);
+                        }
+                        tryLoad(index + 1);
+                    }, 10000); // 10秒超时
+                    
+                    script.onload = () => {
+                        clearTimeout(timeout);
+                        // 等待一小段时间确保库完全初始化
+                        setTimeout(() => {
+                            if (typeof html2canvas !== 'undefined') {
+                                console.log('html2canvas加载成功，来源:', cdnSources[index]);
+                                resolve();
+                            } else {
+                                console.warn('html2canvas未定义，尝试下一个源');
+                                tryLoad(index + 1);
+                            }
+                        }, 100);
+                    };
+                    
+                    script.onerror = () => {
+                        clearTimeout(timeout);
+                        console.warn('CDN源加载失败:', cdnSources[index]);
+                        if (script.parentNode) {
+                            script.parentNode.removeChild(script);
+                        }
+                        tryLoad(index + 1);
+                    };
+                    
+                    document.head.appendChild(script);
+                    loadedScripts.push(script);
+                }
+                
+                // 如果已经加载，直接resolve
+                if (typeof html2canvas !== 'undefined') {
+                    console.log('html2canvas已加载');
+                    resolve();
+                } else {
+                    tryLoad(0);
+                }
+            });
+        }
+        
+        // 页面加载完成后加载库
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                loadHtml2Canvas().catch(err => {
+                    console.error('html2canvas加载失败:', err);
+                });
+            });
+        } else {
+            loadHtml2Canvas().catch(err => {
+                console.error('html2canvas加载失败:', err);
+            });
+        }
+    </script>
     <script src="script.js"></script>
 </body>
 </html>
